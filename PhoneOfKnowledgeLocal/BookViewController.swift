@@ -1,24 +1,107 @@
-//
-//  BookViewController.swift
-//  PhoneOfKnowledgeLocal
-//
-//  Created by Edward Sotelo Jr on 3/12/19.
-//  Copyright © 2019 Edward Sotelo Jr. All rights reserved.
-//
-
 import UIKit
 import os.log
+import FirebaseFirestore
+import Firebase
 
-var myIndex2 = 0
-var curentbookindex: Int?
+var currentNote: Note?
+
 class BookViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var books = [Book]()
+    let db = Firestore.firestore()
     var notes = [Note]()
+    var userNoteCollection:AnyObject?
+    var bookTitle:String = ""
+    var bookAuthor:String = ""
+    
+    @IBOutlet weak var table: UITableView!
     @IBOutlet weak var bookimage: UIImageView!
     @IBOutlet weak var authorname: UILabel!
     @IBOutlet weak var notetable: UITableView!
     @IBOutlet weak var booktitle: UILabel!
+    
+    private func resizeImage(image: UIImage, targetSize:CGSize) -> UIImage {
+        let originalSize = image.size
+        let widthRatio = targetSize.width / originalSize.width
+        let heightRatio = targetSize.height / originalSize.height
+        var newSize:CGSize
+        
+        if widthRatio > heightRatio {
+            newSize = CGSize(width: originalSize.width * heightRatio, height: originalSize.height * heightRatio)
+        } else {
+            newSize = CGSize(width: originalSize.width * widthRatio, height: originalSize.height * widthRatio)
+        }
+        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+        UIGraphicsBeginImageContextWithOptions(newSize, false, UIScreen.main.scale)
+        image.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage!
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let userAuth = Auth.auth().currentUser
+        print("current book author: " + currentBook!.title)
+        loadData()
+        table.reloadData()
+        let userBook = user?.collection("books").document(currentBook!.documentID)
+        userBook!.getDocument { (document, error) in
+            if let document = document {
+                self.authorname.text = document.data()!["author"] as? String
+                self.booktitle.text = document.data()!["title"] as? String
+                self.bookimage.image = self.resizeImage(image: currentBookImage!, targetSize: CGSize(width: 100, height: 100))
+            }
+       }
+        let userNote = userBook?.collection("notes").document()
+        userNoteCollection = userNote
+    }
+
+    func loadData() {
+        user!.collection("books").document(currentBook!.documentID).collection("notes").getDocuments() {
+            (snapshot, error) in
+            if let err = error {
+                print(err)
+            } else {
+                for document in snapshot!.documents {
+                
+                    let imagesArray = document.data()["images"] as! NSArray
+                    var imagesUIArray: Array<UIImage> = Array()
+                    var count = 0
+                    for image in imagesArray{
+                        count += 1
+                        if(image as! String != ""){
+                            let storageRef = Storage.storage().reference(forURL: image as! String)
+                            storageRef.downloadURL(completion: { (url, error) in
+                                if error != nil {
+                                    print("error downloading image \(error)")
+                                } else {
+                                    do {
+                                        let data = try Data(contentsOf: url!)
+                                        let image = UIImage(data: data)
+                                        print("got image")
+                                        imagesUIArray.append(image!)
+                                        print("\(image)")
+                                        if(count == imagesArray.count){
+                                            
+                                        }
+                                    } catch {
+                                        print(error.localizedDescription)
+                                    }
+                                }
+                            })
+                            
+                        }
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                    self.notes.append(Note(documentId: document.documentID, text: document.data()["text"] as! String, images: imagesUIArray, pageNumber: document.data()["pageNumber"] as! Int)!)
+                    print("imagesUIArray = \(imagesUIArray.count)")
+                    print("\(imagesUIArray)")
+                         self.table.reloadData()
+                    }
+                }
+            }
+        }
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return notes.count
@@ -29,67 +112,54 @@ class BookViewController: UIViewController, UITableViewDelegate, UITableViewData
             fatalError("The dequeued cell is not an instance of Note table .")
         }
         let note = notes[indexPath.row]
-        cell.notetext.text = note.notetext
-        cell.noteimage.image = note.image
-        // Configure the cell...
-        
+        for image in note.images{ cell.imagesStack.addArrangedSubview(UIImageView(image: image))
+        }
+        cell.imagesStack.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tap(_:))))
+        cell.notetext.text = note.text
+        if (note.pageNumber == -1){
+            cell.pageNumber.text = nil
+        } else {
+            cell.pageNumber.text = String(note.pageNumber)
+        }
         return cell
     }
     
-   
-  
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.notetable.dataSource = self;
-        self.notetable.delegate = self;
-        if let savedBooks = loadBooks() {
-            books += savedBooks
+    @objc func tap(_ gestureRecognizer: UITapGestureRecognizer) {
+        print("lmaooo")
+    }
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        // Return false if you do not want the specified item to be editable.
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            userNoteCollection?.collection("notes").document(notes[indexPath.row].text).delete(){
+                err in
+                if let err = err {
+                    print(err)
+                } else {
+                    print("delete success")
+                }
+            }
+            // Delete the row from the data source
+            notes.remove(at: indexPath.row)
+            table.deleteRows(at: [indexPath], with: .fade)
+        } else if editingStyle == .insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
-        if let savedNotes = loadNotes() {
-            notes += savedNotes
-        }
-       // bookimage.image = UIImage(named: Book[myIndex])
-        let book = books[myIndex]
-        curentbookindex = book.bookindex
-        authorname.text = book.author
-        bookimage.image = book.image
-        booktitle.text = book.title
-        // Do any additional setup after loading the view.
     }
     
     @IBAction func unwindToNoteList(sender: UIStoryboardSegue) {
         if let sourceViewController = sender.source as? NoteViewController, let note = sourceViewController.note {
-            if let selectedIndexPath = notetable.indexPathForSelectedRow {
-                notes[selectedIndexPath.row] = note
-                notetable.reloadRows(at: [selectedIndexPath], with: .none)
-            } else {
-                // Add a new meal.
-                let newIndexPath = IndexPath(row: notes.count, section: 0)
-                
-                notes.append(note)
-                notetable.insertRows(at: [newIndexPath], with: .automatic)
-            }
-            saveNotes()
-            
-        }
-    }
-    private func saveNotes() {
-        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(notes, toFile: Note.ArchiveURL.path)
-        if isSuccessfulSave {
-            os_log("Notes successfully saved.", log: OSLog.default, type: .debug)
-        } else {
-            os_log("Failed to save notes...", log: OSLog.default, type: .error)
+            let newIndexPath = IndexPath(row: notes.count, section: 0)
+            notes.append(note)
+            table.insertRows(at: [newIndexPath], with: .automatic)
         }
     }
     
-    private func loadBooks() -> [Book]?  {
-        return NSKeyedUnarchiver.unarchiveObject(withFile: Book.ArchiveURL.path) as? [Book]
-    }
-    
-    private func loadNotes() -> [Note]?  {
-        return NSKeyedUnarchiver.unarchiveObject(withFile: Note.ArchiveURL.path) as? [Note]
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        currentNote = notes[indexPath.row]
+        performSegue(withIdentifier: "bookselected", sender: self)
     }
 }
-    
-  
-

@@ -1,9 +1,0 @@
-//
-//  persistenceService.swift
-//  PhoneOfKnowledgeLocal
-//
-//  Created by Edward Sotelo Jr on 3/13/19.
-//  Copyright © 2019 Edward Sotelo Jr. All rights reserved.
-//
-
-import Foundation

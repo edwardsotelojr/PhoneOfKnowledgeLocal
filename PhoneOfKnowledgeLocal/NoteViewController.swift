@@ -1,28 +1,23 @@
-//
-//  NoteViewController.swift
-//  PhoneOfKnowledgeLocal
-//
-//  Created by Edward Sotelo Jr on 3/12/19.
-//  Copyright © 2019 Edward Sotelo Jr. All rights reserved.
-//
-
 import UIKit
 import os.log
+import FirebaseFirestore
+import Firebase
 
-class NoteViewController: UIViewController, UITextViewDelegate, UIImagePickerControllerDelegate {
-    
-    var note: Note?
+class NoteViewController: UIViewController, UITextViewDelegate, UIImagePickerControllerDelegate,  UINavigationControllerDelegate, UITextFieldDelegate  {
     @IBOutlet weak var notetext: UITextView!
+    @IBOutlet weak var pageNumber: UITextField!
     @IBOutlet weak var noteimage: UIImageView!
     @IBOutlet weak var saveButton: UIBarButtonItem!
+    
     let imagePickerController = UIImagePickerController()
+    var note: Note?
+    var userNoteCollection:AnyObject?
+    let db = Firestore.firestore()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         notetext.delegate = self
         updateSaveButtonState()
-
-        // Do any additional setup after loading the view.
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -34,7 +29,6 @@ class NoteViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             saveButton.isEnabled = true
         }
     }
-    
 
     func textViewDidEndEditing(_ textView: UITextView) {
         updateSaveButtonState()
@@ -56,11 +50,16 @@ class NoteViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     
     @IBAction func selectedImageFromPhotoLibrary(_ sender: UITapGestureRecognizer) {
         notetext.resignFirstResponder()
-        imagePickerController.delegate = self as? UIImagePickerControllerDelegate & UINavigationControllerDelegate
+        imagePickerController.delegate = self
         imagePickerController.sourceType = .photoLibrary
         
         print("clicked")
         present(imagePickerController, animated: true, completion: nil)
+    }
+    
+    func randomString(length: Int) -> String {
+        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        return String((0..<length).map{ _ in letters.randomElement()! })
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -72,14 +71,55 @@ class NoteViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             os_log("The save button was not pressed, cancelling", log: OSLog.default, type: .debug)
             return
         }
-        let bookindex = 2
-        let notet = notetext.text ?? ""
-        let notei = noteimage.image
+        let docId = randomString(length: 20)
+       var imageURL:NSArray = []
+        var pageNumberText = Int(pageNumber.text!)
+        if(pageNumberText == nil) {
+            print("nil")
+            pageNumberText = -1
+        }
+        if noteimage.image == UIImage(named: "notepad"){
+            db.collection("users").document(email!).collection("books").document(currentBook!.documentID).collection("notes").document(docId).setData(["text":notetext.text!, "image": "", "pageNumber": pageNumberText!]){
+                err in
+                if let err = err{
+                    print(err)
+                } else {
+                     imageURL = []
+                    print("success")
+                }
+            }
+        } else {
+            let storageRef = Storage.storage().reference().child(docId)
+            if let uploadData = self.noteimage.image!.pngData(){
+                storageRef.putData(uploadData, metadata: nil, completion: {
+                    (metadata, error) in
+                    if error != nil {
+                        print("storage error: ", error)
+                    } else {
+                        storageRef.downloadURL(completion: { (url, error) in
+                            if error != nil {
+                                print("downloadURL error: ", error)
+                            } else {
+                                self.db.collection("users").document(email!).collection("books").document(currentBook!.documentID).collection("notes").document(docId).setData(["text":self.notetext.text!, "image": url!.absoluteString, "pageNumber": pageNumberText!]){
+                                    err in
+                                    if let err = err{
+                                        print(err)
+                                    } else {
+                                        imageURL = []
+                                        print("success")
+                                    }
+                                }
+                            }
+                        })
+                    }
+                })
+            }
+            
+        let text = notetext.text!
         
-        // Set the meal to be passed to MealTableViewController after the unwind segue.
-        note = Note(bookindex: bookindex, notetext: notet, image: notei)
+            note = Note(documentId: docId, text: text, images: imageURL as! Array<UIImage>, pageNumber: pageNumberText!)
     }
-    
+    }
     private func updateSaveButtonState() {
         // Disable the Save button if the text field is empty.
         let text = notetext.text ?? ""

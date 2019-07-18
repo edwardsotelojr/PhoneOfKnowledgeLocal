@@ -7,28 +7,41 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D50B0E5F22A71AB200E5E054 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50B0E5E22A71AB200E5E054 /* Book.swift */; };
+		D50B0E6122A7470000E5E054 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50B0E6022A7470000E5E054 /* Note.swift */; };
+		D52EBBC322B098470056A064 /* EditNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52EBBC222B098470056A064 /* EditNote.swift */; };
+		D52EBBCB22B145540056A064 /* CropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52EBBCA22B145540056A064 /* CropViewController.swift */; };
+		D55C7C7022A075EF00C2F14C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D55C7C6F22A075EF00C2F14C /* GoogleService-Info.plist */; };
+		D55C7C7222A0783000C2F14C /* GoogleSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55C7C7122A0783000C2F14C /* GoogleSignIn.swift */; };
+		D56A0A5C22E0242F0043EDEF /* navController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56A0A5B22E0242E0043EDEF /* navController.swift */; };
 		D591C3FB2237147900A13CA5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D591C3FA2237147900A13CA5 /* AppDelegate.swift */; };
-		D591C3FD2237147900A13CA5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D591C3FC2237147900A13CA5 /* ViewController.swift */; };
 		D591C4002237147900A13CA5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D591C3FE2237147900A13CA5 /* Main.storyboard */; };
 		D591C4032237147900A13CA5 /* PhoneOfKnowledgeLocal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D591C4012237147900A13CA5 /* PhoneOfKnowledgeLocal.xcdatamodeld */; };
 		D591C4052237147D00A13CA5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D591C4042237147D00A13CA5 /* Assets.xcassets */; };
 		D591C4082237147D00A13CA5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D591C4062237147D00A13CA5 /* LaunchScreen.storyboard */; };
 		D591C4102237173B00A13CA5 /* BookTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D591C40F2237173B00A13CA5 /* BookTableViewController.swift */; };
 		D591C4122237189400A13CA5 /* NewBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D591C4112237189400A13CA5 /* NewBookViewController.swift */; };
-		D591C4142237668000A13CA5 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = D591C4132237668000A13CA5 /* Book.swift */; };
 		D591C4162237676000A13CA5 /* BookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D591C4152237676000A13CA5 /* BookCell.swift */; };
 		D591C4182237686800A13CA5 /* RatingControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = D591C4172237686800A13CA5 /* RatingControl.swift */; };
 		D591C41A223817F600A13CA5 /* BookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D591C419223817F600A13CA5 /* BookViewController.swift */; };
 		D591C41C2238240400A13CA5 /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D591C41B2238240400A13CA5 /* NoteViewController.swift */; };
-		D591C41E2238241E00A13CA5 /* NotesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D591C41D2238241E00A13CA5 /* NotesTableViewController.swift */; };
 		D591C4202238243500A13CA5 /* NotesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D591C41F2238243500A13CA5 /* NotesCell.swift */; };
-		D591C4222238343400A13CA5 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = D591C4212238343400A13CA5 /* Note.swift */; };
+		E8397A3847562ED45F72D1E1 /* Pods_PhoneOfKnowledgeLocal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC8C5D1C116D3A2FD5D894B1 /* Pods_PhoneOfKnowledgeLocal.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		12459B7948D3E8E62B522964 /* Pods-PhoneOfKnowledgeLocal.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhoneOfKnowledgeLocal.release.xcconfig"; path = "Target Support Files/Pods-PhoneOfKnowledgeLocal/Pods-PhoneOfKnowledgeLocal.release.xcconfig"; sourceTree = "<group>"; };
+		CC8C5D1C116D3A2FD5D894B1 /* Pods_PhoneOfKnowledgeLocal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PhoneOfKnowledgeLocal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D50B0E5E22A71AB200E5E054 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
+		D50B0E6022A7470000E5E054 /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
+		D52EBBC222B098470056A064 /* EditNote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNote.swift; sourceTree = "<group>"; };
+		D52EBBC722B13DB70056A064 /* Bridging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bridging.h; sourceTree = "<group>"; };
+		D52EBBCA22B145540056A064 /* CropViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropViewController.swift; sourceTree = "<group>"; };
+		D55C7C6F22A075EF00C2F14C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D55C7C7122A0783000C2F14C /* GoogleSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignIn.swift; sourceTree = "<group>"; };
+		D56A0A5B22E0242E0043EDEF /* navController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = navController.swift; sourceTree = "<group>"; };
 		D591C3F72237147900A13CA5 /* PhoneOfKnowledgeLocal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhoneOfKnowledgeLocal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D591C3FA2237147900A13CA5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D591C3FC2237147900A13CA5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D591C3FF2237147900A13CA5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D591C4022237147900A13CA5 /* PhoneOfKnowledgeLocal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PhoneOfKnowledgeLocal.xcdatamodel; sourceTree = "<group>"; };
 		D591C4042237147D00A13CA5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -36,14 +49,12 @@
 		D591C4092237147D00A13CA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D591C40F2237173B00A13CA5 /* BookTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookTableViewController.swift; sourceTree = "<group>"; };
 		D591C4112237189400A13CA5 /* NewBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookViewController.swift; sourceTree = "<group>"; };
-		D591C4132237668000A13CA5 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		D591C4152237676000A13CA5 /* BookCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCell.swift; sourceTree = "<group>"; };
 		D591C4172237686800A13CA5 /* RatingControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingControl.swift; sourceTree = "<group>"; };
 		D591C419223817F600A13CA5 /* BookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookViewController.swift; sourceTree = "<group>"; };
 		D591C41B2238240400A13CA5 /* NoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController.swift; sourceTree = "<group>"; };
-		D591C41D2238241E00A13CA5 /* NotesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableViewController.swift; sourceTree = "<group>"; };
 		D591C41F2238243500A13CA5 /* NotesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesCell.swift; sourceTree = "<group>"; };
-		D591C4212238343400A13CA5 /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
+		F14DA472586BD22261B981CB /* Pods-PhoneOfKnowledgeLocal.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhoneOfKnowledgeLocal.debug.xcconfig"; path = "Target Support Files/Pods-PhoneOfKnowledgeLocal/Pods-PhoneOfKnowledgeLocal.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,17 +62,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E8397A3847562ED45F72D1E1 /* Pods_PhoneOfKnowledgeLocal.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		71F5DD82C539ED854D61E285 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F14DA472586BD22261B981CB /* Pods-PhoneOfKnowledgeLocal.debug.xcconfig */,
+				12459B7948D3E8E62B522964 /* Pods-PhoneOfKnowledgeLocal.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		9E597B4B54447E55B6C1C44B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CC8C5D1C116D3A2FD5D894B1 /* Pods_PhoneOfKnowledgeLocal.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		D591C3EE2237147900A13CA5 = {
 			isa = PBXGroup;
 			children = (
 				D591C3F92237147900A13CA5 /* PhoneOfKnowledgeLocal */,
 				D591C3F82237147900A13CA5 /* Products */,
+				71F5DD82C539ED854D61E285 /* Pods */,
+				9E597B4B54447E55B6C1C44B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -77,22 +108,26 @@
 			isa = PBXGroup;
 			children = (
 				D591C3FA2237147900A13CA5 /* AppDelegate.swift */,
-				D591C3FC2237147900A13CA5 /* ViewController.swift */,
 				D591C3FE2237147900A13CA5 /* Main.storyboard */,
 				D591C4042237147D00A13CA5 /* Assets.xcassets */,
 				D591C4062237147D00A13CA5 /* LaunchScreen.storyboard */,
 				D591C4092237147D00A13CA5 /* Info.plist */,
+				D55C7C6F22A075EF00C2F14C /* GoogleService-Info.plist */,
 				D591C4012237147900A13CA5 /* PhoneOfKnowledgeLocal.xcdatamodeld */,
 				D591C40F2237173B00A13CA5 /* BookTableViewController.swift */,
 				D591C4112237189400A13CA5 /* NewBookViewController.swift */,
-				D591C4132237668000A13CA5 /* Book.swift */,
 				D591C4152237676000A13CA5 /* BookCell.swift */,
 				D591C4172237686800A13CA5 /* RatingControl.swift */,
 				D591C419223817F600A13CA5 /* BookViewController.swift */,
 				D591C41B2238240400A13CA5 /* NoteViewController.swift */,
-				D591C41D2238241E00A13CA5 /* NotesTableViewController.swift */,
 				D591C41F2238243500A13CA5 /* NotesCell.swift */,
-				D591C4212238343400A13CA5 /* Note.swift */,
+				D55C7C7122A0783000C2F14C /* GoogleSignIn.swift */,
+				D50B0E5E22A71AB200E5E054 /* Book.swift */,
+				D50B0E6022A7470000E5E054 /* Note.swift */,
+				D52EBBC222B098470056A064 /* EditNote.swift */,
+				D52EBBC722B13DB70056A064 /* Bridging.h */,
+				D52EBBCA22B145540056A064 /* CropViewController.swift */,
+				D56A0A5B22E0242E0043EDEF /* navController.swift */,
 			);
 			path = PhoneOfKnowledgeLocal;
 			sourceTree = "<group>";
@@ -104,9 +139,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D591C40C2237147D00A13CA5 /* Build configuration list for PBXNativeTarget "PhoneOfKnowledgeLocal" */;
 			buildPhases = (
+				23F4CEFA270A2610BFAA3C12 /* [CP] Check Pods Manifest.lock */,
 				D591C3F32237147900A13CA5 /* Sources */,
 				D591C3F42237147900A13CA5 /* Frameworks */,
 				D591C3F52237147900A13CA5 /* Resources */,
+				747E584B5D95A7A94B9F6596 /* [CP] Copy Pods Resources */,
+				DFC3322CCFAA04A5DBC57E89 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -129,6 +167,11 @@
 				TargetAttributes = {
 					D591C3F62237147900A13CA5 = {
 						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};
@@ -157,30 +200,120 @@
 			files = (
 				D591C4082237147D00A13CA5 /* LaunchScreen.storyboard in Resources */,
 				D591C4052237147D00A13CA5 /* Assets.xcassets in Resources */,
+				D55C7C7022A075EF00C2F14C /* GoogleService-Info.plist in Resources */,
 				D591C4002237147900A13CA5 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		23F4CEFA270A2610BFAA3C12 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PhoneOfKnowledgeLocal-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		747E584B5D95A7A94B9F6596 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PhoneOfKnowledgeLocal/Pods-PhoneOfKnowledgeLocal-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PhoneOfKnowledgeLocal/Pods-PhoneOfKnowledgeLocal-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DFC3322CCFAA04A5DBC57E89 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PhoneOfKnowledgeLocal/Pods-PhoneOfKnowledgeLocal-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/CropViewController/CropViewController.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CropViewController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PhoneOfKnowledgeLocal/Pods-PhoneOfKnowledgeLocal-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		D591C3F32237147900A13CA5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D56A0A5C22E0242F0043EDEF /* navController.swift in Sources */,
+				D55C7C7222A0783000C2F14C /* GoogleSignIn.swift in Sources */,
+				D52EBBC322B098470056A064 /* EditNote.swift in Sources */,
 				D591C4032237147900A13CA5 /* PhoneOfKnowledgeLocal.xcdatamodeld in Sources */,
-				D591C41E2238241E00A13CA5 /* NotesTableViewController.swift in Sources */,
-				D591C3FD2237147900A13CA5 /* ViewController.swift in Sources */,
 				D591C4202238243500A13CA5 /* NotesCell.swift in Sources */,
-				D591C4142237668000A13CA5 /* Book.swift in Sources */,
-				D591C4222238343400A13CA5 /* Note.swift in Sources */,
 				D591C4162237676000A13CA5 /* BookCell.swift in Sources */,
 				D591C4182237686800A13CA5 /* RatingControl.swift in Sources */,
+				D52EBBCB22B145540056A064 /* CropViewController.swift in Sources */,
 				D591C4102237173B00A13CA5 /* BookTableViewController.swift in Sources */,
 				D591C41A223817F600A13CA5 /* BookViewController.swift in Sources */,
+				D50B0E5F22A71AB200E5E054 /* Book.swift in Sources */,
 				D591C4122237189400A13CA5 /* NewBookViewController.swift in Sources */,
 				D591C41C2238240400A13CA5 /* NoteViewController.swift in Sources */,
 				D591C3FB2237147900A13CA5 /* AppDelegate.swift in Sources */,
+				D50B0E6122A7470000E5E054 /* Note.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,9 +457,12 @@
 		};
 		D591C40D2237147D00A13CA5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F14DA472586BD22261B981CB /* Pods-PhoneOfKnowledgeLocal.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 47BS437XF5;
 				INFOPLIST_FILE = PhoneOfKnowledgeLocal/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -334,6 +470,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = Edward.PhoneOfKnowledgeLocal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = PhoneOfKnowledgeLocal/Bridging.h;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -341,9 +479,12 @@
 		};
 		D591C40E2237147D00A13CA5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 12459B7948D3E8E62B522964 /* Pods-PhoneOfKnowledgeLocal.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 47BS437XF5;
 				INFOPLIST_FILE = PhoneOfKnowledgeLocal/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -351,6 +492,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = Edward.PhoneOfKnowledgeLocal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = PhoneOfKnowledgeLocal/Bridging.h;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
