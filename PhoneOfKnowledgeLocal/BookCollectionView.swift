@@ -1,37 +1,45 @@
+//
+//  BookCollectionView.swift
+//  PhoneOfKnowledgeLocal
+//
+//  Created by Edward Sotelo Jr on 7/26/19.
+//  Copyright © 2019 Edward Sotelo Jr. All rights reserved.
+//
+
 import UIKit
 import os.log
 import GoogleSignIn
 import FirebaseFirestore
 import Firebase
 
-//var currentBookImage: UIImage?
-//var myIndex = 0
-//var user:AnyObject?
-//var currentBook:Book?
-//var email:String?
+var currentBookImage: UIImage?
+var myIndex = 0
+var user:AnyObject?
+var currentBook:Book?
+var email:String?
 
-class BookTableViewController: UITableViewController {
+class BookCollectionView: UICollectionViewController {
+    
     var books = [Book]()
     let db = Firestore.firestore()
     var userBookCollection:AnyObject?
-   
-    @IBOutlet weak var navBar: UINavigationItem!
+    
+    let columnLayout = FlowLayout(
+        cellsPerRow: 2,
+        minimumInteritemSpacing: 10,
+        minimumLineSpacing: 10,
+        sectionInset: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    )
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        collectionView?.collectionViewLayout = columnLayout
+        collectionView?.contentInsetAdjustmentBehavior = .always
         let userAuth = Auth.auth().currentUser
-        print("userAuth = ", userAuth)
         if let userinfo = userAuth {
-            // The user's ID, unique to the Firebase project.
-            // Do NOT use this value to authenticate with your backend server,
-            // if you have one. Use getTokenWithCompletion:completion: instead.
-            let uid = userinfo.uid
-            let email = userinfo.email
-            let photoURL = userinfo.photoURL
             self.title = userinfo.displayName! + "'s Books"
             // ...
         }
-        
         email = (GIDSignIn.sharedInstance()?.currentUser.profile.email!)!
         loadData()
         let setUser = db.collection("users").document(email!).setData([:])
@@ -40,16 +48,31 @@ class BookTableViewController: UITableViewController {
         print("here")
         let userBook = userDocument.collection("books").document()
         userBookCollection = userDocument
-        tableView.estimatedRowHeight = 85.0
-        tableView.rowHeight = UITableView.automaticDimension
-
     }
-    func randomString(length: Int) -> String {
-        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        return String((0..<length).map{ _ in letters.randomElement()! })
-    }
-  
     
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return books.count
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BookCollectionCell", for: indexPath) as! BookCollectionViewCell
+        let book = books[indexPath.row]
+        cell.layer.borderColor = UIColor.cyan.cgColor
+        cell.layer.borderWidth = 1
+        cell.layer.cornerRadius = 8 // optional
+        cell.author.text = book.author
+        cell.bookImage.image = self.resizeImage(image: book.imageUI, targetSize: CGSize(width: 100, height: 100))
+        cell.title.text = book.title
+        return cell
+        }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        currentBook = books[indexPath.row]
+        currentBookImage = books[indexPath.row].imageUI
+        print(currentBook!.author)
+        performSegue(withIdentifier: "bookselected", sender: self)
+    }
+
     func loadData() {
         var imageUI = UIImage(named: "defaultPhoto")!
         db.collection("users").document(email!).collection("books").getDocuments() {
@@ -59,8 +82,8 @@ class BookTableViewController: UITableViewController {
             } else {
                 for document in snapshot!.documents {
                     if (document.data()["image"] as! String != ""){ // has image
-                         var storageRef = Storage.storage().reference(forURL: document.data()["image"] as! String)
-                         storageRef.downloadURL(completion: { (url, error) in
+                        var storageRef = Storage.storage().reference(forURL: document.data()["image"] as! String)
+                        storageRef.downloadURL(completion: { (url, error) in
                             if error != nil {
                                 print("error in download url: ", error!)
                             } else{
@@ -70,9 +93,7 @@ class BookTableViewController: UITableViewController {
                                     print("got image", image!)
                                     var imageUI = image!
                                     self.books.append(Book(documentID: document.documentID, title: document.data()["title"] as! String, image: document.data()["image"] as! String, author: document.data()["author"] as! String, imageUI: imageUI)!)
-                                     self.tableView.reloadData()
-                                    
-                                   
+                                    self.collectionView.reloadData()
                                 } catch {
                                     print(error.localizedDescription)
                                 }
@@ -81,26 +102,15 @@ class BookTableViewController: UITableViewController {
                     }else {
                         var imageUI = UIImage(named: "defaultPhoto")
                         self.books.append(Book(documentID: document.documentID, title: document.data()["title"] as! String, image: document.data()["image"] as! String, author: "author", imageUI: imageUI!)!)
-                        self.tableView.reloadData()
+                        self.collectionView.reloadData()
                     }
                 }
             }
         }
     }
-    
-    @IBAction func SignOut(_ sender: Any) {
-        GIDSignIn.sharedInstance()?.signOut()
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let signInController = storyBoard.instantiateViewController(withIdentifier: "signedIn") as! GoogleSignIn
-        self.present(signInController, animated: true, completion: nil)
-    }
-    // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return books.count
+    func randomString(length: Int) -> String {
+        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        return String((0..<length).map{ _ in letters.randomElement()! })
     }
     
     private func resizeImage(image: UIImage, targetSize:CGSize) -> UIImage {
@@ -121,34 +131,17 @@ class BookTableViewController: UITableViewController {
         UIGraphicsEndImageContext()
         return newImage!
     }
- 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? BookCell else {
-           fatalError("The dequeued cell is not an instance of BookCell.")
-        }
-        let book = books[indexPath.row]
-        cell.authorLabel.text = book.author
-        cell.imagePhoto.image = self.resizeImage(image: book.imageUI, targetSize: CGSize(width: 100, height: 100))
-        cell.titleLabel.text = book.title
-        return cell
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        collectionView?.collectionViewLayout.invalidateLayout()
+        super.viewWillTransition(to: size, with: coordinator)
     }
     
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            userBookCollection?.collection("books").document(books[indexPath.row].documentID).delete(){ err in
-                if let err = err {
-                    print(err)
-                } else {
-                    print("delete success")
-                }
-            }
-            books.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        }
+    @IBAction func SignOut(_ sender: Any) {
+        GIDSignIn.sharedInstance()?.signOut()
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let signInController = storyBoard.instantiateViewController(withIdentifier: "signedIn") as! GoogleSignIn
+        self.present(signInController, animated: true, completion: nil)
     }
     
     @IBAction func unwindToBookList(sender: UIStoryboardSegue) {
@@ -156,14 +149,8 @@ class BookTableViewController: UITableViewController {
             let newIndexPath = IndexPath(row: books.count, section: 0)
             print("image string:  \(book.image)")
             books.append(book)
-            tableView.insertRows(at: [newIndexPath], with: .automatic)
+            collectionView.insertItems(at: [newIndexPath])
         }
     }
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        currentBook = books[indexPath.row]
-        currentBookImage = books[indexPath.row].imageUI
-        print(currentBook!.author)
-        performSegue(withIdentifier: "bookselected", sender: self)
-    }
 }

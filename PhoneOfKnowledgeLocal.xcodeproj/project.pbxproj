@@ -26,6 +26,9 @@
 		D591C41A223817F600A13CA5 /* BookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D591C419223817F600A13CA5 /* BookViewController.swift */; };
 		D591C41C2238240400A13CA5 /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D591C41B2238240400A13CA5 /* NoteViewController.swift */; };
 		D591C4202238243500A13CA5 /* NotesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D591C41F2238243500A13CA5 /* NotesCell.swift */; };
+		D5B3B09B22EC06C30016A440 /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5B3B09A22EC06C30016A440 /* FlowLayout.swift */; };
+		D5FEF18122EBBF6C006A88C4 /* BookCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FEF18022EBBF6C006A88C4 /* BookCollectionView.swift */; };
+		D5FEF18322EBC0C0006A88C4 /* BookCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FEF18222EBC0C0006A88C4 /* BookCollectionViewCell.swift */; };
 		E8397A3847562ED45F72D1E1 /* Pods_PhoneOfKnowledgeLocal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC8C5D1C116D3A2FD5D894B1 /* Pods_PhoneOfKnowledgeLocal.framework */; };
 /* End PBXBuildFile section */
 
@@ -54,6 +57,9 @@
 		D591C419223817F600A13CA5 /* BookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookViewController.swift; sourceTree = "<group>"; };
 		D591C41B2238240400A13CA5 /* NoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController.swift; sourceTree = "<group>"; };
 		D591C41F2238243500A13CA5 /* NotesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesCell.swift; sourceTree = "<group>"; };
+		D5B3B09A22EC06C30016A440 /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
+		D5FEF18022EBBF6C006A88C4 /* BookCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCollectionView.swift; sourceTree = "<group>"; };
+		D5FEF18222EBC0C0006A88C4 /* BookCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCollectionViewCell.swift; sourceTree = "<group>"; };
 		F14DA472586BD22261B981CB /* Pods-PhoneOfKnowledgeLocal.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhoneOfKnowledgeLocal.debug.xcconfig"; path = "Target Support Files/Pods-PhoneOfKnowledgeLocal/Pods-PhoneOfKnowledgeLocal.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -128,6 +134,9 @@
 				D52EBBC722B13DB70056A064 /* Bridging.h */,
 				D52EBBCA22B145540056A064 /* CropViewController.swift */,
 				D56A0A5B22E0242E0043EDEF /* navController.swift */,
+				D5FEF18022EBBF6C006A88C4 /* BookCollectionView.swift */,
+				D5FEF18222EBC0C0006A88C4 /* BookCollectionViewCell.swift */,
+				D5B3B09A22EC06C30016A440 /* FlowLayout.swift */,
 			);
 			path = PhoneOfKnowledgeLocal;
 			sourceTree = "<group>";
@@ -304,12 +313,15 @@
 				D52EBBC322B098470056A064 /* EditNote.swift in Sources */,
 				D591C4032237147900A13CA5 /* PhoneOfKnowledgeLocal.xcdatamodeld in Sources */,
 				D591C4202238243500A13CA5 /* NotesCell.swift in Sources */,
+				D5FEF18122EBBF6C006A88C4 /* BookCollectionView.swift in Sources */,
+				D5FEF18322EBC0C0006A88C4 /* BookCollectionViewCell.swift in Sources */,
 				D591C4162237676000A13CA5 /* BookCell.swift in Sources */,
 				D591C4182237686800A13CA5 /* RatingControl.swift in Sources */,
 				D52EBBCB22B145540056A064 /* CropViewController.swift in Sources */,
 				D591C4102237173B00A13CA5 /* BookTableViewController.swift in Sources */,
 				D591C41A223817F600A13CA5 /* BookViewController.swift in Sources */,
 				D50B0E5F22A71AB200E5E054 /* Book.swift in Sources */,
+				D5B3B09B22EC06C30016A440 /* FlowLayout.swift in Sources */,
 				D591C4122237189400A13CA5 /* NewBookViewController.swift in Sources */,
 				D591C41C2238240400A13CA5 /* NoteViewController.swift in Sources */,
 				D591C3FB2237147900A13CA5 /* AppDelegate.swift in Sources */,

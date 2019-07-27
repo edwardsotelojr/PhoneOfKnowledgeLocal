@@ -11,7 +11,6 @@ class NewBookViewController: UIViewController, CropViewControllerDelegate, UITex
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var authorField: UITextField!
     var book: Book?
-    let imagePickerController = UIImagePickerController()
     var userBookCollection:AnyObject?
     var author: String?
     private var croppingStyle = CropViewCroppingStyle.default
@@ -27,6 +26,8 @@ class NewBookViewController: UIViewController, CropViewControllerDelegate, UITex
         userBookCollection = setUser
         updateSaveButtonState()
     }
+    
+    
     
     private func resizeImage(image: UIImage, targetSize:CGSize) -> UIImage {
         let originalSize = image.size
@@ -49,10 +50,27 @@ class NewBookViewController: UIViewController, CropViewControllerDelegate, UITex
     
     @IBAction func selectedImageFromPhotoLibrary(_ sender: UITapGestureRecognizer) {
         booktitleField.resignFirstResponder()
+        let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
-        imagePickerController.sourceType = .photoLibrary //.camera
-        imagePickerController.allowsEditing = false
-        present(imagePickerController, animated: true, completion: nil)
+        let actionSheet = UIAlertController(title: "Photo Source", message: "Choose a source", preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (action: UIAlertAction) in
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                imagePickerController.sourceType = .camera
+                self.present(imagePickerController, animated: true, completion: nil)
+            }else {
+                print("Camera not available")
+            }
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { (action: UIAlertAction) in
+            imagePickerController.sourceType = .photoLibrary
+            self.present(imagePickerController, animated: true, completion: nil)
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(actionSheet, animated: true, completion: nil)
+     //   imagePickerController.delegate = self
+       // imagePickerController.sourceType = .photoLibrary //.camera
+        //imagePickerController.allowsEditing = false
+        //present(imagePickerController, animated: true, completion: nil)
     }
     
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
@@ -84,11 +102,12 @@ class NewBookViewController: UIViewController, CropViewControllerDelegate, UITex
     }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let selectedImage = (info[UIImagePickerController.InfoKey.originalImage] as? UIImage) else { return }
+        let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+        print("selected image")
         let cropController = CropViewController(croppingStyle: croppingStyle, image: selectedImage)
         cropController.delegate = self
         bookimage.image =  self.resizeImage(image: selectedImage, targetSize: CGSize(width: 150, height: 200))
-        dismiss(animated: true, completion: {
+        picker.dismiss(animated: true, completion: {
             print("presenting crop controller")
             self.present(cropController, animated: true, completion: nil)
             
@@ -97,14 +116,8 @@ class NewBookViewController: UIViewController, CropViewControllerDelegate, UITex
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         print("cancelled")
-        dismiss(animated: true, completion: nil)
+        picker.dismiss(animated: true, completion: nil)
     }
-    
-    
-    
-    
-    
-    
     
     
     
