@@ -31,22 +31,75 @@ class BookCollectionView: UICollectionViewController {
         sectionInset: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     )
     
+    func loadData(completion: @escaping (_ message: String) -> Void) {
+        var imageUI = UIImage(named: "defaultPhoto")!
+        db.collection("users").document(email!).collection("books").getDocuments() {
+            (snapshot, error) in
+                if let err = error {
+                    print(err)
+                } else {
+                    for document in snapshot!.documents {
+                        print(document)
+                        if (document.data()["image"] as! String != ""){ // has image
+                            var storageRef = Storage.storage().reference(forURL: document.data()["image"] as! String)
+                            storageRef.downloadURL{ (url, error) in
+                                if error != nil {
+                                    print("error in download url: ", error!)
+                                    completion("error")
+                                    return
+                                } else{
+                                    do{
+                                        let data = try Data(contentsOf: url!)
+                                        let image = UIImage(data: data)
+                                        print("got image", image!)
+                                        var imageUI = image!
+                                        self.books.append(Book(documentID: document.documentID, title: document.data()["title"] as! String, image: document.data()["image"] as! String, author: document.data()["author"] as! String, imageUI: imageUI)!)
+                                    } catch {
+                                        print(error.localizedDescription)
+                                    }
+                                }
+                            }
+                        }else {
+                            self.books.append(Book(documentID: document.documentID, title: document.data()["title"] as! String, image: document.data()["image"] as! String, author: "author", imageUI: imageUI)!)
+                            self.collectionView.reloadData()
+                        }
+                        
+                    }
+                    completion("done")
+                }
+            }
+    }
+    
+  
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        var userDocument: DocumentReference?
+            let userAuth = Auth.auth().currentUser
+            if let userinfo = userAuth {
+                self.title = userinfo.displayName! + "'s Books"
+                // ...
+            }
+            email = (GIDSignIn.sharedInstance()?.currentUser.profile.email!)!
+            
+            let setUser = db.collection("users").document(email!).setData([:])
+            userDocument = db.collection("users").document(email!)
+            user = userDocument
+        loadData(completion: { message in
+            // WHEN you get a callback from the completion handler,
+            print(message)
+            
+        })
+        
+        print("After Queue ")
+        
+        
+        print("lamooo")
         collectionView?.collectionViewLayout = columnLayout
         collectionView?.contentInsetAdjustmentBehavior = .always
-        let userAuth = Auth.auth().currentUser
-        if let userinfo = userAuth {
-            self.title = userinfo.displayName! + "'s Books"
-            // ...
-        }
-        email = (GIDSignIn.sharedInstance()?.currentUser.profile.email!)!
-        loadData()
-        let setUser = db.collection("users").document(email!).setData([:])
-        let userDocument = db.collection("users").document(email!)
-        user = userDocument
+        
         print("here")
-        let userBook = userDocument.collection("books").document()
+        let userBook = userDocument!.collection("books").document()
         userBookCollection = userDocument
     }
     
@@ -73,40 +126,9 @@ class BookCollectionView: UICollectionViewController {
         performSegue(withIdentifier: "bookselected", sender: self)
     }
 
-    func loadData() {
-        var imageUI = UIImage(named: "defaultPhoto")!
-        db.collection("users").document(email!).collection("books").getDocuments() {
-            (snapshot, error) in
-            if let err = error {
-                print(err)
-            } else {
-                for document in snapshot!.documents {
-                    if (document.data()["image"] as! String != ""){ // has image
-                        var storageRef = Storage.storage().reference(forURL: document.data()["image"] as! String)
-                        storageRef.downloadURL(completion: { (url, error) in
-                            if error != nil {
-                                print("error in download url: ", error!)
-                            } else{
-                                do{
-                                    let data = try Data(contentsOf: url!)
-                                    let image = UIImage(data: data)
-                                    print("got image", image!)
-                                    var imageUI = image!
-                                    self.books.append(Book(documentID: document.documentID, title: document.data()["title"] as! String, image: document.data()["image"] as! String, author: document.data()["author"] as! String, imageUI: imageUI)!)
-                                    self.collectionView.reloadData()
-                                } catch {
-                                    print(error.localizedDescription)
-                                }
-                            }
-                        })
-                    }else {
-                        var imageUI = UIImage(named: "defaultPhoto")
-                        self.books.append(Book(documentID: document.documentID, title: document.data()["title"] as! String, image: document.data()["image"] as! String, author: "author", imageUI: imageUI!)!)
-                        self.collectionView.reloadData()
-                    }
-                }
-            }
-        }
+    
+    func printdone() -> Void{
+        print("done")
     }
     func randomString(length: Int) -> String {
         let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"

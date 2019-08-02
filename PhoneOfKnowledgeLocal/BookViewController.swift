@@ -92,10 +92,9 @@ class BookViewController: UIViewController, UITableViewDelegate, UITableViewData
                             
                         }
                     }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                    self.notes.append(Note(documentId: document.documentID, text: document.data()["text"] as! String, images: imagesUIArray, pageNumber: document.data()["pageNumber"] as! Int)!)
-                    print("imagesUIArray = \(imagesUIArray.count)")
-                    print("\(imagesUIArray)")
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                        self.notes.append(Note(documentId: document.documentID, text: document.data()["text"] as! String, images: document.data()["images"] as! Array<String>, pageNumber: document.data()["pageNumber"] as! String, imagesUI: imagesUIArray)!)
+                            
                          self.table.reloadData()
                     }
                 }
@@ -112,14 +111,14 @@ class BookViewController: UIViewController, UITableViewDelegate, UITableViewData
             fatalError("The dequeued cell is not an instance of Note table .")
         }
         let note = notes[indexPath.row]
-        for image in note.images{ cell.imagesStack.addArrangedSubview(UIImageView(image: image))
+        for image in note.imagesUI{ cell.imagesStack.addArrangedSubview(UIImageView(image: image))
         }
         cell.imagesStack.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tap(_:))))
         cell.notetext.text = note.text
-        if (note.pageNumber == -1){
+        if (note.pageNumber == ""){
             cell.pageNumber.text = nil
         } else {
-            cell.pageNumber.text = String(note.pageNumber)
+            cell.pageNumber.text = note.pageNumber
         }
         return cell
     }

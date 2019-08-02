@@ -27,29 +27,7 @@ class NewBookViewController: UIViewController, CropViewControllerDelegate, UITex
         updateSaveButtonState()
     }
     
-    
-    
-    private func resizeImage(image: UIImage, targetSize:CGSize) -> UIImage {
-        let originalSize = image.size
-        let widthRatio = targetSize.width / originalSize.width
-        let heightRatio = targetSize.height / originalSize.height
-        var newSize:CGSize
-        
-        if widthRatio > heightRatio {
-            newSize = CGSize(width: originalSize.width * heightRatio, height: originalSize.height * heightRatio)
-        } else {
-            newSize = CGSize(width: originalSize.width * widthRatio, height: originalSize.height * widthRatio)
-        }
-        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
-        UIGraphicsBeginImageContextWithOptions(newSize, false, UIScreen.main.scale)
-        image.draw(in: rect)
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return newImage!
-    }
-    
     @IBAction func selectedImageFromPhotoLibrary(_ sender: UITapGestureRecognizer) {
-        booktitleField.resignFirstResponder()
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
         let actionSheet = UIAlertController(title: "Photo Source", message: "Choose a source", preferredStyle: .actionSheet)
@@ -67,10 +45,35 @@ class NewBookViewController: UIViewController, CropViewControllerDelegate, UITex
         }))
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(actionSheet, animated: true, completion: nil)
-     //   imagePickerController.delegate = self
-       // imagePickerController.sourceType = .photoLibrary //.camera
-        //imagePickerController.allowsEditing = false
-        //present(imagePickerController, animated: true, completion: nil)
+    }
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+        print("selected image")
+        let cropController = CropViewController(croppingStyle: croppingStyle, image: selectedImage)
+        cropController.delegate = self
+        bookimage.image =  self.resizeImage(image: selectedImage, targetSize: CGSize(width: 250, height: 250))
+        picker.dismiss(animated: true, completion: {
+            print("presenting crop controller")
+            self.present(cropController, animated: true, completion: nil)
+            
+        })
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        print("cancelled")
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == booktitleField{
+            booktitleField.resignFirstResponder()
+            authorField.becomeFirstResponder()
+            return true
+        }else{
+            booktitleField.resignFirstResponder()
+            return true
+        }
     }
     
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
@@ -80,9 +83,8 @@ class NewBookViewController: UIViewController, CropViewControllerDelegate, UITex
         updateImageViewWithImage(image, fromCropViewController: cropViewController)
     }
     
-    
     public func updateImageViewWithImage(_ image: UIImage, fromCropViewController cropViewController: CropViewController) {
-        bookimage.image = self.resizeImage(image: image, targetSize: CGSize(width: 150, height: 200))
+        bookimage.image = self.resizeImage(image: image, targetSize: CGSize(width: 250, height: 250))
         print("in update image view function")
         if cropViewController.croppingStyle != .circular {
             bookimage.isHidden = true
@@ -99,31 +101,6 @@ class NewBookViewController: UIViewController, CropViewControllerDelegate, UITex
             print("in update View with image")
             cropViewController.dismiss(animated: true, completion: nil)
         }
-    }
-
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
-        print("selected image")
-        let cropController = CropViewController(croppingStyle: croppingStyle, image: selectedImage)
-        cropController.delegate = self
-        bookimage.image =  self.resizeImage(image: selectedImage, targetSize: CGSize(width: 150, height: 200))
-        picker.dismiss(animated: true, completion: {
-            print("presenting crop controller")
-            self.present(cropController, animated: true, completion: nil)
-            
-        })
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        print("cancelled")
-        picker.dismiss(animated: true, completion: nil)
-    }
-    
-    
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        booktitleField.resignFirstResponder()
-        return true
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -194,6 +171,24 @@ class NewBookViewController: UIViewController, CropViewControllerDelegate, UITex
            self.performSegue(withIdentifier: "unwindNewBook", sender: self)
         }
         
+    }
+    private func resizeImage(image: UIImage, targetSize:CGSize) -> UIImage {
+        let originalSize = image.size
+        let widthRatio = targetSize.width / originalSize.width
+        let heightRatio = targetSize.height / originalSize.height
+        var newSize:CGSize
+        
+        if widthRatio > heightRatio {
+            newSize = CGSize(width: originalSize.width * heightRatio, height: originalSize.height * heightRatio)
+        } else {
+            newSize = CGSize(width: originalSize.width * widthRatio, height: originalSize.height * widthRatio)
+        }
+        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+        UIGraphicsBeginImageContextWithOptions(newSize, false, UIScreen.main.scale)
+        image.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage!
     }
   
 }

@@ -20,14 +20,8 @@ class BookTableViewController: UITableViewController {
         super.viewDidLoad()
         
         let userAuth = Auth.auth().currentUser
-        print("userAuth = ", userAuth)
+        print("userAuth = ", userAuth!)
         if let userinfo = userAuth {
-            // The user's ID, unique to the Firebase project.
-            // Do NOT use this value to authenticate with your backend server,
-            // if you have one. Use getTokenWithCompletion:completion: instead.
-            let uid = userinfo.uid
-            let email = userinfo.email
-            let photoURL = userinfo.photoURL
             self.title = userinfo.displayName! + "'s Books"
             // ...
         }

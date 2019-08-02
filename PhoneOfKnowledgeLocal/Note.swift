@@ -12,11 +12,12 @@ import UIKit
 class Note {
     var documentId: String
     var text: String
-    var images: Array<UIImage>
-    var pageNumber: Int
+    var images: Array<String> = Array()
+    var pageNumber: String
+    var imagesUI: Array<UIImage> = Array()
     //var imageArray: Array<String>
     
-    init?(documentId: String, text: String, images: Array<UIImage>, pageNumber: Int) {
+    init?(documentId: String, text: String, images: Array<String>, pageNumber: String, imagesUI: Array<UIImage>) {
         guard !text.isEmpty else {
             return nil
         }
@@ -25,5 +26,6 @@ class Note {
         self.text = text
         self.images = images
         self.pageNumber = pageNumber
+        self.imagesUI = imagesUI
     }
 }

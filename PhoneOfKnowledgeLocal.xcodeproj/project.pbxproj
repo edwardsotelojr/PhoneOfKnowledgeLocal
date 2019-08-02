@@ -11,6 +11,7 @@
 		D50B0E6122A7470000E5E054 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50B0E6022A7470000E5E054 /* Note.swift */; };
 		D52EBBC322B098470056A064 /* EditNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52EBBC222B098470056A064 /* EditNote.swift */; };
 		D52EBBCB22B145540056A064 /* CropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52EBBCA22B145540056A064 /* CropViewController.swift */; };
+		D55B254922F3B46B00AF5C51 /* BooksManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55B254822F3B46B00AF5C51 /* BooksManager.swift */; };
 		D55C7C7022A075EF00C2F14C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D55C7C6F22A075EF00C2F14C /* GoogleService-Info.plist */; };
 		D55C7C7222A0783000C2F14C /* GoogleSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55C7C7122A0783000C2F14C /* GoogleSignIn.swift */; };
 		D56A0A5C22E0242F0043EDEF /* navController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56A0A5B22E0242E0043EDEF /* navController.swift */; };
@@ -40,6 +41,7 @@
 		D52EBBC222B098470056A064 /* EditNote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNote.swift; sourceTree = "<group>"; };
 		D52EBBC722B13DB70056A064 /* Bridging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bridging.h; sourceTree = "<group>"; };
 		D52EBBCA22B145540056A064 /* CropViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropViewController.swift; sourceTree = "<group>"; };
+		D55B254822F3B46B00AF5C51 /* BooksManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksManager.swift; sourceTree = "<group>"; };
 		D55C7C6F22A075EF00C2F14C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D55C7C7122A0783000C2F14C /* GoogleSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignIn.swift; sourceTree = "<group>"; };
 		D56A0A5B22E0242E0043EDEF /* navController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = navController.swift; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 				D5FEF18022EBBF6C006A88C4 /* BookCollectionView.swift */,
 				D5FEF18222EBC0C0006A88C4 /* BookCollectionViewCell.swift */,
 				D5B3B09A22EC06C30016A440 /* FlowLayout.swift */,
+				D55B254822F3B46B00AF5C51 /* BooksManager.swift */,
 			);
 			path = PhoneOfKnowledgeLocal;
 			sourceTree = "<group>";
@@ -320,6 +323,7 @@
 				D52EBBCB22B145540056A064 /* CropViewController.swift in Sources */,
 				D591C4102237173B00A13CA5 /* BookTableViewController.swift in Sources */,
 				D591C41A223817F600A13CA5 /* BookViewController.swift in Sources */,
+				D55B254922F3B46B00AF5C51 /* BooksManager.swift in Sources */,
 				D50B0E5F22A71AB200E5E054 /* Book.swift in Sources */,
 				D5B3B09B22EC06C30016A440 /* FlowLayout.swift in Sources */,
 				D591C4122237189400A13CA5 /* NewBookViewController.swift in Sources */,
