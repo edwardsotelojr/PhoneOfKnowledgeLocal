@@ -136,7 +136,8 @@ class NoteViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     }
     
     @IBAction func Save(_ sender: Any) {
-        let docId = randomString(length: 20)
+        let docId = UUID().uuidString
+        /*
         let storageRef = Storage.storage().reference().child(docId)
         if(pageNumber.text == nil) {
             print("nil")
@@ -162,7 +163,7 @@ class NoteViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
                         print("saving document error: ", err)
                     } else {
                         print("success with user photo \(imagesURL)")
-                        self.note = Note(documentId: docId, text: self.notetext.text!, images: imagesURL, pageNumber: self.pageNumber.text!, imagesUI: self.images)
+                        self.note = Note(documentId: docId, note: self.notetext.text!, images: imagesURL, pageNumber: self.pageNumber.text!, imagesUI: self.images)
                     }
                 }
             }
@@ -181,7 +182,8 @@ class NoteViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
         DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
             self.performSegue(withIdentifier: "noteCreated", sender: self)
         }
-    }
+ 
+ */}
     
     private func storeImages(docID: String, storageRef: StorageReference, images: Array<UIImage>) -> Array<String>{
         var imagesURL: Array<String> = Array()

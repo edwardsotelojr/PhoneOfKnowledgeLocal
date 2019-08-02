@@ -7,11 +7,7 @@ var currentNote: Note?
 
 class BookViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    let db = Firestore.firestore()
-    var notes = [Note]()
     var userNoteCollection:AnyObject?
-    var bookTitle:String = ""
-    var bookAuthor:String = ""
     
     @IBOutlet weak var table: UITableView!
     @IBOutlet weak var bookimage: UIImageView!
@@ -40,69 +36,22 @@ class BookViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let userAuth = Auth.auth().currentUser
         print("current book author: " + currentBook!.title)
-        loadData()
+        if let title = currentBook?.title{
+            booktitle.text = title
+        }
+        if let author = currentBook?.author{
+            authorname.text = author
+        }
+        if let coverImage = currentBook?.imageUI{
+            bookimage.image = self.resizeImage(image: coverImage, targetSize: CGSize(width: 100, height: 100))
+        }
         table.reloadData()
-        let userBook = user?.collection("books").document(currentBook!.documentID)
-        userBook!.getDocument { (document, error) in
-            if let document = document {
-                self.authorname.text = document.data()!["author"] as? String
-                self.booktitle.text = document.data()!["title"] as? String
-                self.bookimage.image = self.resizeImage(image: currentBookImage!, targetSize: CGSize(width: 100, height: 100))
-            }
-       }
-        let userNote = userBook?.collection("notes").document()
-        userNoteCollection = userNote
     }
 
-    func loadData() {
-        user!.collection("books").document(currentBook!.documentID).collection("notes").getDocuments() {
-            (snapshot, error) in
-            if let err = error {
-                print(err)
-            } else {
-                for document in snapshot!.documents {
-                
-                    let imagesArray = document.data()["images"] as! NSArray
-                    var imagesUIArray: Array<UIImage> = Array()
-                    var count = 0
-                    for image in imagesArray{
-                        count += 1
-                        if(image as! String != ""){
-                            let storageRef = Storage.storage().reference(forURL: image as! String)
-                            storageRef.downloadURL(completion: { (url, error) in
-                                if error != nil {
-                                    print("error downloading image \(error)")
-                                } else {
-                                    do {
-                                        let data = try Data(contentsOf: url!)
-                                        let image = UIImage(data: data)
-                                        print("got image")
-                                        imagesUIArray.append(image!)
-                                        print("\(image)")
-                                        if(count == imagesArray.count){
-                                            
-                                        }
-                                    } catch {
-                                        print(error.localizedDescription)
-                                    }
-                                }
-                            })
-                            
-                        }
-                    }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                        self.notes.append(Note(documentId: document.documentID, text: document.data()["text"] as! String, images: document.data()["images"] as! Array<String>, pageNumber: document.data()["pageNumber"] as! String, imagesUI: imagesUIArray)!)
-                            
-                         self.table.reloadData()
-                    }
-                }
-            }
-        }
-    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("notes count \(notes.count)")
         return notes.count
     }
     
@@ -114,7 +63,7 @@ class BookViewController: UIViewController, UITableViewDelegate, UITableViewData
         for image in note.imagesUI{ cell.imagesStack.addArrangedSubview(UIImageView(image: image))
         }
         cell.imagesStack.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tap(_:))))
-        cell.notetext.text = note.text
+        cell.notetext.text = note.note
         if (note.pageNumber == ""){
             cell.pageNumber.text = nil
         } else {
@@ -133,7 +82,7 @@ class BookViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            userNoteCollection?.collection("notes").document(notes[indexPath.row].text).delete(){
+            userNoteCollection?.collection("notes").document(notes[indexPath.row].note).delete(){
                 err in
                 if let err = err {
                     print(err)
@@ -158,7 +107,7 @@ class BookViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        currentNote = notes[indexPath.row]
-        performSegue(withIdentifier: "bookselected", sender: self)
+       // currentNote = notes[indexPath.row]
+        //performSegue(withIdentifier: "bookselected", sender: self)
     }
 }

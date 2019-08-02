@@ -17,11 +17,9 @@ var myIndex = 0
 var user:AnyObject?
 var currentBook:Book?
 var email:String?
-
+var notes = [Note]()
 class BookCollectionView: UICollectionViewController {
     
-    var books = [Book]()
-    let db = Firestore.firestore()
     var userBookCollection:AnyObject?
     
     let columnLayout = FlowLayout(
@@ -31,76 +29,16 @@ class BookCollectionView: UICollectionViewController {
         sectionInset: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     )
     
-    func loadData(completion: @escaping (_ message: String) -> Void) {
-        var imageUI = UIImage(named: "defaultPhoto")!
-        db.collection("users").document(email!).collection("books").getDocuments() {
-            (snapshot, error) in
-                if let err = error {
-                    print(err)
-                } else {
-                    for document in snapshot!.documents {
-                        print(document)
-                        if (document.data()["image"] as! String != ""){ // has image
-                            var storageRef = Storage.storage().reference(forURL: document.data()["image"] as! String)
-                            storageRef.downloadURL{ (url, error) in
-                                if error != nil {
-                                    print("error in download url: ", error!)
-                                    completion("error")
-                                    return
-                                } else{
-                                    do{
-                                        let data = try Data(contentsOf: url!)
-                                        let image = UIImage(data: data)
-                                        print("got image", image!)
-                                        var imageUI = image!
-                                        self.books.append(Book(documentID: document.documentID, title: document.data()["title"] as! String, image: document.data()["image"] as! String, author: document.data()["author"] as! String, imageUI: imageUI)!)
-                                    } catch {
-                                        print(error.localizedDescription)
-                                    }
-                                }
-                            }
-                        }else {
-                            self.books.append(Book(documentID: document.documentID, title: document.data()["title"] as! String, image: document.data()["image"] as! String, author: "author", imageUI: imageUI)!)
-                            self.collectionView.reloadData()
-                        }
-                        
-                    }
-                    completion("done")
-                }
-            }
-    }
-    
-  
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        var userDocument: DocumentReference?
             let userAuth = Auth.auth().currentUser
             if let userinfo = userAuth {
                 self.title = userinfo.displayName! + "'s Books"
                 // ...
             }
             email = (GIDSignIn.sharedInstance()?.currentUser.profile.email!)!
-            
-            let setUser = db.collection("users").document(email!).setData([:])
-            userDocument = db.collection("users").document(email!)
-            user = userDocument
-        loadData(completion: { message in
-            // WHEN you get a callback from the completion handler,
-            print(message)
-            
-        })
-        
-        print("After Queue ")
-        
-        
-        print("lamooo")
         collectionView?.collectionViewLayout = columnLayout
         collectionView?.contentInsetAdjustmentBehavior = .always
-        
-        print("here")
-        let userBook = userDocument!.collection("books").document()
-        userBookCollection = userDocument
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -120,19 +58,73 @@ class BookCollectionView: UICollectionViewController {
         }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        currentBook = books[indexPath.row]
-        currentBookImage = books[indexPath.row].imageUI
-        print(currentBook!.author)
-        performSegue(withIdentifier: "bookselected", sender: self)
+        loadbook(book: books[indexPath.row])
     }
 
-    
-    func printdone() -> Void{
-        print("done")
-    }
-    func randomString(length: Int) -> String {
-        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        return String((0..<length).map{ _ in letters.randomElement()! })
+    // load selected book
+    private func loadbook(book: Book){
+        currentBook = nil
+        currentBook = book
+        notes = []
+        user?.document(book.documentID).collection("notes").getDocuments() {
+            (snapshot, error) in
+            if error != nil {
+                print(error)
+                return
+            }
+            let docArray = snapshot!.documents
+            for document in snapshot!.documents {
+                let documentID = document.documentID
+                let note = document.data()["note"] as! String
+                let pageNumber = document.data()["pageNumber"] as! String
+                let imagesArray = document.data()["images"] as! Array<String>
+                var imagesUIArray: Array<UIImage> = Array()
+                var count = 0
+                print("imagesArray \(imagesArray)")
+                print("imagesArray count \(imagesArray.count)")
+                if(imagesArray == []){
+                    notes.append(Note(documentId: documentID, note: note, images: [], pageNumber: pageNumber, imagesUI: [])!)
+                    print("appended note with no images")
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                        notes.append(Note(documentId: document.documentID, note: document.data()["text"] as! String, images: document.data()["images"] as! Array<String>, pageNumber: document.data()["pageNumber"] as! String, imagesUI: imagesUIArray)!)
+                        self.performSegue(withIdentifier: "bookselected", sender: self)
+                    }
+                }else{
+                    for image in imagesArray{
+                        count += 1
+                        if(image != ""){
+                            var storageRef = Storage.storage().reference(forURL: image as! String)
+                            storageRef.downloadURL(completion: { (url, error) in
+                                if error != nil {
+                                    print("error downloading image \(error)")
+                                    return
+                                }
+                                do {
+                                    let data = try Data(contentsOf: url!)
+                                    let image = UIImage(data: data)
+                                        print("got image")
+                                    imagesUIArray.append(image!)
+                                    print("\(image)")
+                                    if(count == imagesArray.count){
+                                            
+                                    }
+                                } catch {
+                                    print(error.localizedDescription)
+                                }
+                            })
+                        }
+                        if(image == imagesArray.last && count == imagesArray.count){
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                                print("segue")
+                                notes.append(Note(documentId: document.documentID, note: document.data()["note"] as! String, images: document.data()["images"] as! Array<String>, pageNumber: document.data()["pageNumber"] as! String, imagesUI: imagesUIArray)!)
+                                  self.performSegue(withIdentifier: "bookselected", sender: self)
+                            }
+                        }
+                    }
+               
+                }
+            }
+        }
     }
     
     private func resizeImage(image: UIImage, targetSize:CGSize) -> UIImage {

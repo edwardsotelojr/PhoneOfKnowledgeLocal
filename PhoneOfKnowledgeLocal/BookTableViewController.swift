@@ -158,6 +158,6 @@ class BookTableViewController: UITableViewController {
         currentBook = books[indexPath.row]
         currentBookImage = books[indexPath.row].imageUI
         print(currentBook!.author)
-        performSegue(withIdentifier: "bookselected", sender: self)
+      
     }
 }

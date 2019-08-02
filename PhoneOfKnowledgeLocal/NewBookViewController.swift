@@ -123,14 +123,10 @@ class NewBookViewController: UIViewController, CropViewControllerDelegate, UITex
         saveButton.isEnabled = !text.isEmpty
     }
     
-    func randomString(length: Int) -> String {
-        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        return String((0..<length).map{ _ in letters.randomElement()! })
-    }
-    
+  
     @IBAction func Save(_ sender: Any) {
-        let docId = randomString(length: 20)
-        var imageURL:String = "lol"
+        let docId = UUID().uuidString
+        var imageURL:String?
         if bookimage.image == UIImage(named: "defaultPhoto"){
             print("default photo")
             self.userBookCollection?.collection("books").document(docId).setData(["title":self.booktitleField.text!, "author":self.authorField.text!, "image": ""]){ err in
@@ -159,7 +155,7 @@ class NewBookViewController: UIViewController, CropViewControllerDelegate, UITex
                                 } else {
                                     imageURL = url!.absoluteString
                                     print("success with user photo \(imageURL)")
-                                    self.book = Book(documentID: docId ,title: self.booktitleField.text!, image: imageURL, author: self.authorField.text!, imageUI: self.bookimage.image!)
+                                    self.book = Book(documentID: docId ,title: self.booktitleField.text!, image: imageURL!, author: self.authorField.text!, imageUI: self.bookimage.image!)
                                 }
                             }
                         }
@@ -167,7 +163,7 @@ class NewBookViewController: UIViewController, CropViewControllerDelegate, UITex
                 })
             }
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
            self.performSegue(withIdentifier: "unwindNewBook", sender: self)
         }
         
